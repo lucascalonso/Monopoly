@@ -29,13 +29,13 @@ namespace Monopoly.Core
 
         public void ShowUpgradeMenu(Board board)
         {
+            string input;
             var props = _player.Properties.FindAll(p => !p.IsMortgaged);
             if (props.Count == 0)
+            {
+                Console.WriteLine("Você não possui propriedades para upgrade.");
                 return;
-
-            Console.WriteLine("Deseja construir casas ou hotéis em alguma propriedade? (s/n)");
-            string input = Console.ReadLine()?.Trim().ToLower();
-            if (input != "s") return;
+            }
 
             while (true)
             {
@@ -50,15 +50,19 @@ namespace Monopoly.Core
                     break;
 
                 var prop = props[idx];
-                Console.WriteLine("Construir (c)asa ou (h)otel?");
-                string tipo = Console.ReadLine()?.Trim().ToLower();
-                if (tipo == "c")
+
+                // Decide automaticamente o tipo de upgrade
+                if (prop.Houses < 4 && !prop.HasHotel)
                 {
                     prop.BuildHouse(_player, board);
                 }
-                else if (tipo == "h")
+                else if (prop.Houses == 4 && !prop.HasHotel)
                 {
                     prop.BuildHotel(_player, board);
+                }
+                else
+                {
+                    Console.WriteLine("Esta propriedade já possui um hotel. Não é possível fazer mais upgrades.");
                 }
 
                 Console.WriteLine("Deseja construir outro upgrade? (s/n)");

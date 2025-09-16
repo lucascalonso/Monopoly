@@ -1,10 +1,14 @@
-
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Monopoly.Cards;
 using Monopoly.Squares;
 using Monopoly.Trading;
 using Monopoly.Interfaces;
+
+
+
+
 
 namespace Monopoly.Core
 {
@@ -23,6 +27,23 @@ namespace Monopoly.Core
             CommunityChestDeck = communityChestDeck;
             ChanceDeck = chanceDeck;
             CurrentPlayerIndex = 0;
+        }
+
+        public void StartGameLoop()
+        {
+            int rodada = 1;
+            while (true)
+            {
+                Console.WriteLine($"\n--- Rodada {rodada} ---");
+                var jogadoresAtivos = Players.ToList();
+                foreach (var player in jogadoresAtivos)
+                {
+                    Console.WriteLine($"\nVez de {player.Name} (Dinheiro: {player.Money})");
+                    var turn = new PlayerTurn(player, Board, new Dice(), this);
+                    turn.Execute();
+                }
+                rodada++;
+            }
         }
 
         public void PlayTurn()

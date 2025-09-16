@@ -34,3 +34,4 @@
 /Users/lucasoliveira/comp-uff/ProjetoSoftware/Monopoly/obj/Debug/net9.0/Monopoly.pdb
 /Users/lucasoliveira/comp-uff/ProjetoSoftware/Monopoly/obj/Debug/net9.0/Monopoly.genruntimeconfig.cache
 /Users/lucasoliveira/comp-uff/ProjetoSoftware/Monopoly/obj/Debug/net9.0/ref/Monopoly.dll
+/Users/lucasoliveira/comp-uff/ProjetoSoftware/Monopoly/obj/Debug/net9.0/Monopoly.sourcelink.json

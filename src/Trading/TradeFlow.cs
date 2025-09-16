@@ -12,10 +12,6 @@ namespace Monopoly.Trading
     {
         public static void OferecerNegociacao(TradeManager tradeManager, Player currentPlayer, List<Player> allPlayers)
         {
-            Console.WriteLine($"{currentPlayer.Name}, deseja oferecer uma negociação? (s/n)");
-            string resp = Console.ReadLine()?.Trim().ToLower();
-            if (resp != "s") return;
-
             // Escolher jogador alvo
             Console.WriteLine("Para qual jogador deseja negociar? (digite o nome)");
             foreach (var p in allPlayers)

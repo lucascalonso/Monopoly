@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 
+using Monopoly.Squares;
 namespace Monopoly.Core
 {
     public class Property : Square
@@ -133,7 +134,11 @@ namespace Monopoly.Core
                 .Where(p => p.ColorGroup == this.ColorGroup)
                 .ToList();
 
-            if (CanBuildHotel(player, board))
+            // Corrige a verificação: todas as propriedades do grupo devem ter 4 casas OU já terem hotel
+            bool ownsAll = groupProps.All(p => p.Owner == player);
+            bool allReady = groupProps.All(p => (p.Houses == 4 || p.HasHotel) && !p.IsMortgaged);
+
+            if (ownsAll && allReady && Houses == 4 && !HasHotel)
             {
                 int hotelCost = 100; // Ajuste conforme o grupo
                 if (player.Money >= hotelCost)
@@ -143,12 +148,7 @@ namespace Monopoly.Core
                     Houses = 0;
                     Console.WriteLine($"{player.Name} construiu um hotel em {Name}!");
 
-                    // Remove as 4 casas de todas as propriedades do grupo
-                    foreach (var prop in groupProps)
-                    {
-                        if (prop != this && prop.Houses > 0)
-                            prop.Houses = prop.Houses; // Mantém as casas nas outras, pois só esta vira hotel
-                    }
+                    // Não precisa alterar casas das outras propriedades, pois só esta vira hotel
                 }
                 else
                 {
@@ -157,7 +157,7 @@ namespace Monopoly.Core
             }
             else
             {
-                Console.WriteLine("Não é possível construir hotel nesta propriedade. Todas as propriedades do grupo precisam ter 4 casas e não podem estar hipotecadas.");
+                Console.WriteLine("Não é possível construir hotel nesta propriedade. Todas as propriedades do grupo precisam ter 4 casas ou hotel e não podem estar hipotecadas.");
             }
         }
     }
